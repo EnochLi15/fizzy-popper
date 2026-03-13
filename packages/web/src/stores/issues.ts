@@ -150,7 +150,7 @@ export const useIssueStore = defineStore('issues', () => {
   const connectWebSocket = () => {
     if (ws) return
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const wsUrl = `${protocol}//${window.location.host}`
+    const wsUrl = `${protocol}//${window.location.host}/ws`
     ws = new WebSocket(wsUrl)
 
     ws.onmessage = (event) => {
