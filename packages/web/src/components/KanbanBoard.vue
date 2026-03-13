@@ -12,7 +12,7 @@
         :issues="store.issues.filter(i => i.status === col.id)"
         @dragstart="onDragStart"
         @drop="onDrop"
-        @issue-click="selectedIssue = \$event"
+        @issue-click="selectedIssue = $event"
       />
     </main>
 

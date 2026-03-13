@@ -12,8 +12,8 @@
         :key="issue.id" 
         :issue="issue" 
         draggable="true"
-        @dragstart="\$emit('dragstart', \$event, issue)"
-        @click="\$emit('issue-click', issue)"
+        @dragstart="$emit('dragstart', $event, issue)"
+        @click="$emit('issue-click', issue)"
       />
       <div v-if="issues.length === 0" class="flex-1 flex items-center justify-center text-sm text-gray-400 border-2 border-dashed border-gray-200 rounded m-2">
         Drop here

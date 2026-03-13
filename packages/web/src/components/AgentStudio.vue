@@ -127,7 +127,7 @@ const needsIntervention = computed(() => {
 const submitIntervention = async () => {
   if (!interventionInput.value || !props.issue) return
   
-  await fetch(\`/api/issues/\${props.issue.id}/intervention\`, {
+  await fetch(`/api/issues/${props.issue.id}/intervention`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ content: interventionInput.value })
@@ -140,7 +140,7 @@ const killProcess = async () => {
   if (!props.issue) return
   if (!confirm('Are you sure you want to kill the agent process?')) return
 
-  await fetch(\`/api/issues/\${props.issue.id}/kill\`, {
+  await fetch(`/api/issues/${props.issue.id}/kill`, {
     method: 'POST'
   })
 }
