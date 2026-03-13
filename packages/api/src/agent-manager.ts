@@ -59,8 +59,24 @@ export class AgentManager {
   async start(issueId: string) {
     if (this.sessions.has(issueId)) return
     
-    const issue = await prisma.issue.findUnique({ where: { id: issueId } })
+    const issue = await prisma.issue.findUnique({ 
+      where: { id: issueId },
+      include: { parent: true }
+    })
     if (!issue) return
+
+    const goldenTicket = await prisma.issue.findFirst({
+      where: { status: issue.status, isGoldenTicket: true }
+    })
+
+    let systemPrompt = goldenTicket?.description || "Work on the following issue."
+    
+    let context = ""
+    if (issue.parent) {
+      context = `\n\nParent Issue Context:\nTitle: ${issue.parent.title}\nDescription: ${issue.parent.description}\n---\n`
+    }
+
+    const finalPrompt = `${systemPrompt}${context}\n\nTask to complete:\nTitle: ${issue.title}\nDescription: ${issue.description}`
 
     const session: AgentSession = { issueId, status: 'running' }
     this.sessions.set(issueId, session)
@@ -96,7 +112,7 @@ export class AgentManager {
 
       await this.sdk.session.prompt({
         sessionID: sdkSession.id,
-        parts: [{ type: 'text', text: issue.description }]
+        parts: [{ type: 'text', text: finalPrompt }]
       })
 
       broadcastEvent(issueId, {
