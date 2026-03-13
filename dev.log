@@ -1,0 +1,60 @@
+
+> fizzy-popper@0.1.0 dev:symphony /Users/enoch/Workspace/fizzy-popper
+> pnpm run --parallel -r dev
+
+Scope: 3 of 4 workspace projects
+packages/api dev$ tsx src/index.ts
+packages/core dev$ tsx src/cli.ts
+packages/web dev$ vite
+packages/api dev: API running on http://localhost:3001
+packages/web dev:   VITE v8.0.0  ready in 310 ms
+packages/web dev:   ➜  Local:   http://localhost:5173/
+packages/web dev:   ➜  Network: use --host to expose
+packages/core dev: ┌  fizzy-popper — AI agents for your Fizzy boards
+packages/core dev: [?25l│
+packages/core dev: ◆  Fizzy API token (profile → API → Personal access tokens)
+packages/core dev: │  fz_...
+packages/core dev: └
+packages/web dev: 4:43:36 PM [vite] (client) hmr update /src/components/KanbanBoard.vue, /src/components/AgentStudio.vue, /src/style.css, /src/components/IssueCard.vue
+packages/web dev: 4:43:40 PM [vite] (client) hmr update /src/components/KanbanBoard.vue, /src/components/AgentStudio.vue, /src/style.css, /src/components/IssueCard.vue
+packages/web dev: 4:43:50 PM [vite] (client) hmr update /src/components/KanbanColumn.vue, /src/style.css
+packages/web dev: 4:43:51 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of setup function 
+packages/web dev:   at <KanbanColumn key="todo" title="Todo" status="todo"  ... > 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/web dev: 4:43:51 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of scheduler flush 
+packages/web dev:   at <KanbanColumn key="todo" title="Todo" status="todo"  ... > 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/web dev: 4:43:51 PM [vite] (client) [Unhandled rejection] ReferenceError: watch is not defined
+packages/web dev:  > setup src/components/KanbanColumn.vue:83:0
+packages/web dev:     81 |  }
+packages/web dev:     82 |  
+packages/web dev:     83 |  watch(isAdding, (val) => {
+packages/web dev:        |  ^
+packages/web dev:     84 |    if (val) {
+packages/web dev:     85 |      nextTick(() => inputRef.value?.focus())
+packages/web dev:  > callWithErrorHandling ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:199:18
+packages/web dev:  > setupStatefulComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:8093:24
+packages/web dev:  > setupComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:8055:35
+packages/web dev:  > mountComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5992:6
+packages/web dev:  > processComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5958:8
+packages/web dev:  > patch ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5464:10
+packages/web dev:  > patchKeyedChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6488:10
+packages/web dev:  > patchChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6291:10
+packages/web dev:  > processFragment ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5932:8
+packages/web dev: 4:43:58 PM [vite] (client) hmr update /src/components/KanbanColumn.vue, /src/style.css
+packages/web dev: 4:43:58 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of scheduler flush 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/web dev: 4:43:58 PM [vite] (client) [Unhandled rejection] TypeError: Cannot read properties of null (reading 'emitsOptions')
+packages/web dev:  > shouldUpdateComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:4726:26
+packages/web dev:  > updateComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6023:8
+packages/web dev:  > processComponent ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5969:6
+packages/web dev:  > patch ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5464:10
+packages/web dev:  > patchKeyedChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6397:8
+packages/web dev:  > patchChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6291:10
+packages/web dev:  > processFragment ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5932:8
+packages/web dev:  > patch ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5438:8
+packages/web dev:  > patchKeyedChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6377:8
+packages/web dev:  > patchChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6291:10

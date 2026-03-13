@@ -31,6 +31,17 @@ export const useIssueStore = defineStore('issues', () => {
     }
   }
 
+  const createIssue = async (title: string) => {
+    const res = await fetch('/api/issues', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description: '', status: 'todo' })
+    })
+    const newIssue = await res.json()
+    issues.value.push(newIssue)
+    return newIssue
+  }
+
   const updateIssueStatus = async (id: string, status: string) => {
     // Optimistic update
     const findAndUpdate = (list: Issue[]): boolean => {
@@ -130,5 +141,5 @@ export const useIssueStore = defineStore('issues', () => {
     }
   }
 
-  return { issues, isLoading, fetchIssues, updateIssueStatus, createSubTask, deleteIssue, connectWebSocket }
+  return { issues, isLoading, fetchIssues, createIssue, updateIssueStatus, createSubTask, deleteIssue, connectWebSocket }
 })
