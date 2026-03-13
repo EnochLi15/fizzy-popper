@@ -33,6 +33,7 @@ const columns = [
 
 onMounted(() => {
   store.fetchIssues()
+  store.connectWebSocket()
 })
 
 const onDragStart = (e: DragEvent, issue: Issue) => {

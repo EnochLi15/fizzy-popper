@@ -39,5 +39,29 @@ export const useIssueStore = defineStore('issues', () => {
     })
   }
 
-  return { issues, isLoading, fetchIssues, updateIssueStatus }
+  let ws: WebSocket | null = null
+
+  const connectWebSocket = () => {
+    if (ws) return
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+    const wsUrl = `${protocol}//${window.location.host}`
+    ws = new WebSocket(wsUrl)
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      console.log('WS Event:', data)
+      if (data.type === 'status_update' && data.issueId) {
+        const issue = issues.value.find(i => i.id === data.issueId)
+        if (issue && data.status) issue.status = data.status
+        if (issue && data.agentStatus) issue.agentStatus = data.agentStatus
+      }
+    }
+    
+    ws.onclose = () => {
+      ws = null
+      setTimeout(connectWebSocket, 3000) // reconnect
+    }
+  }
+
+  return { issues, isLoading, fetchIssues, updateIssueStatus, connectWebSocket }
 })
