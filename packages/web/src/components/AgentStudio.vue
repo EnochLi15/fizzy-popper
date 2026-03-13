@@ -134,7 +134,10 @@ const submitIntervention = async () => {
 
 const scrollToBottom = () => {
   if (logContainer.value) {
-    logContainer.value.scrollTop = logContainer.value.scrollHeight
+    logContainer.value.scrollTo({
+      top: logContainer.value.scrollHeight,
+      behavior: 'smooth'
+    })
   }
 }
 
