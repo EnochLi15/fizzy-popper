@@ -9,7 +9,7 @@
         :key="col.id"
         :title="col.title"
         :status="col.id"
-        :issues="store.issues.filter(i => i.status === col.id)"
+        :issues="store.issues.filter(i => i.status === col.id && !i.isGoldenTicket)"
         @dragstart="onDragStart"
         @drop="onDrop"
         @issue-click="selectedIssue = $event"
