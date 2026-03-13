@@ -13,6 +13,7 @@
   "packageManager": "pnpm@10.23.0",
   "dependencies": {
     "@hono/node-server": "^1.19.11",
+    "@opencode-ai/sdk": "^1.2.25",
     "hono": "^4.12.7",
     "sqlite3": "^6.0.1",
     "ws": "^8.19.0"

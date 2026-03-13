@@ -1,14 +1,20 @@
+import { createOpencodeClient } from "@opencode-ai/sdk/v2"
 import { broadcastEvent } from './ws'
 
 export interface AgentSession {
   issueId: string
+  sessionID?: string
   status: 'idle' | 'running' | 'waiting' | 'stopped'
 }
 
 export class AgentManager {
   private sessions = new Map<string, AgentSession>()
+  private sdk = createOpencodeClient({
+    baseUrl: "http://127.0.0.1:4096",
+    directory: process.cwd(),
+  })
 
-  start(issueId: string) {
+  async start(issueId: string) {
     if (this.sessions.has(issueId)) return
     
     const session: AgentSession = { issueId, status: 'running' }
@@ -20,6 +26,7 @@ export class AgentManager {
       timestamp: Date.now() 
     })
 
+    // Simulated lifecycle will be replaced in Task 2
     this.runSimulation(issueId)
   }
 
