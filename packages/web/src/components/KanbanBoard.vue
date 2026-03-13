@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-full bg-white flex flex-col font-sans overflow-hidden">
+  <div class="h-screen w-full bg-white flex flex-col font-sans overflow-hidden relative">
     <header class="h-14 border-b border-gray-200 flex items-center px-6 shrink-0">
       <h1 class="font-bold text-xl text-gray-800">Symphony Kanban</h1>
     </header>
@@ -12,17 +12,26 @@
         :issues="store.issues.filter(i => i.status === col.id)"
         @dragstart="onDragStart"
         @drop="onDrop"
+        @issue-click="selectedIssue = \$event"
       />
     </main>
+
+    <AgentStudio 
+      :issue="selectedIssue" 
+      :class="{ 'translate-x-full': !selectedIssue }"
+      @close="selectedIssue = null"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useIssueStore, type Issue } from '../stores/issues'
 import KanbanColumn from './KanbanColumn.vue'
+import AgentStudio from './AgentStudio.vue'
 
 const store = useIssueStore()
+const selectedIssue = ref<Issue | null>(null)
 
 const columns = [
   { id: 'todo', title: 'Todo' },
