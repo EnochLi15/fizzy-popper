@@ -7,7 +7,7 @@
     "build": "tsc",
     "dev": "tsx packages/core/src/cli.ts",
     "start": "node packages/core/dist/cli.js",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "pnpm run -r typecheck",
     "test": "vitest run",
     "test:watch": "vitest"
   },
