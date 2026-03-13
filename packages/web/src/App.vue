@@ -1,7 +1,7 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <HelloWorld />
+  <KanbanBoard />
 </template>
+
+<script setup lang="ts">
+import KanbanBoard from './components/KanbanBoard.vue'
+</script>
