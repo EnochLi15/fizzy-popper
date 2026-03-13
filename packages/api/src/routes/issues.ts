@@ -30,7 +30,20 @@ router.post('/', async (c) => {
 router.patch('/:id', async (c) => {
   const id = c.req.param('id')
   const body = await c.req.json()
+  
+  const oldIssue = await prisma.issue.findUnique({ where: { id } })
   const issue = await prisma.issue.update({ where: { id }, data: body })
+  
+  if (body.status && oldIssue?.status !== body.status && !issue.isGoldenTicket) {
+    const goldenTicket = await prisma.issue.findFirst({
+      where: { status: body.status, isGoldenTicket: true }
+    })
+    
+    if (goldenTicket) {
+      agentManager.start(id)
+    }
+  }
+  
   return c.json(issue)
 })
 
