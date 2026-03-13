@@ -31,12 +31,35 @@ export class AgentManager {
         const issueId = this.sessionToIssue.get(sessionID)
         if (!issueId) continue
 
+        console.log(`[SDK Event] ${type} for issue ${issueId}:`, properties)
+
         switch (type) {
           case 'message.updated':
+            const text = properties.info?.text || properties.info?.content
+            if (text) {
+              broadcastEvent(issueId, {
+                id: Math.random().toString(36).slice(2),
+                type: 'thought',
+                content: text,
+                timestamp: Date.now()
+              })
+            }
+            break
+          case 'tool.called':
             broadcastEvent(issueId, {
               id: Math.random().toString(36).slice(2),
-              type: 'thought',
-              content: properties.info?.text || properties.info?.content,
+              type: 'tool_call',
+              command: properties.info?.command || properties.info?.call?.name,
+              output: 'Executing...',
+              timestamp: Date.now()
+            })
+            break
+          case 'tool.completed':
+            broadcastEvent(issueId, {
+              id: Math.random().toString(36).slice(2),
+              type: 'tool_call',
+              command: properties.info?.command || properties.info?.call?.name,
+              output: properties.info?.output || properties.info?.result,
               timestamp: Date.now()
             })
             break

@@ -15,8 +15,10 @@ export const useAgentStore = defineStore('agent', () => {
   const activeIssueId = ref<string | null>(null)
 
   const addLog = (issueId: string, log: AgentLog) => {
-    if (!logs.value[issueId]) logs.value[issueId] = []
-    logs.value[issueId].push(log)
+    if (!logs.value[issueId]) {
+      logs.value[issueId] = []
+    }
+    logs.value[issueId] = [...logs.value[issueId], log]
   }
 
   const clearLogs = (issueId: string) => {

@@ -199,6 +199,12 @@ const killProcess = async () => {
   })
 }
 
+watch(() => props.issue?.agentStatus, (newStatus) => {
+  if (newStatus && newStatus !== 'idle' && activeTab.value === 'tasks') {
+    activeTab.value = 'session'
+  }
+})
+
 const scrollToBottom = () => {
   if (logContainer.value) {
     logContainer.value.scrollTo({
