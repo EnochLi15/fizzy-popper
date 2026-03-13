@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useAgentStore } from './agent'
 
 export interface Issue {
   id: string
@@ -16,6 +17,7 @@ export interface Issue {
 export const useIssueStore = defineStore('issues', () => {
   const issues = ref<Issue[]>([])
   const isLoading = ref(false)
+  const agentStore = useAgentStore()
 
   const fetchIssues = async () => {
     isLoading.value = true
@@ -50,10 +52,15 @@ export const useIssueStore = defineStore('issues', () => {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data)
       console.log('WS Event:', data)
-      if (data.type === 'status_update' && data.issueId) {
-        const issue = issues.value.find(i => i.id === data.issueId)
-        if (issue && data.status) issue.status = data.status
-        if (issue && data.agentStatus) issue.agentStatus = data.agentStatus
+      
+      if (data.issueId) {
+        if (data.type === 'status_update') {
+          const issue = issues.value.find(i => i.id === data.issueId)
+          if (issue && data.status) issue.status = data.status
+          if (issue && data.agentStatus) issue.agentStatus = data.agentStatus
+        } else {
+          agentStore.addLog(data.issueId, data)
+        }
       }
     }
     
