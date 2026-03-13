@@ -57,6 +57,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.11
         version: 1.19.11(hono@4.12.7)
+      '@opencode-ai/sdk':
+        specifier: ^1.2.25
+        version: 1.2.25
       hono:
         specifier: ^4.12.7
         version: 4.12.7
@@ -409,6 +412,9 @@ packages:
   '@npmcli/fs@5.0.0':
     resolution: {integrity: sha512-7OsC1gNORBEawOa5+j2pXN9vsicaIOH5cPXxoR6fJOmH6/EXpJB2CajXOu1fPRFun2m1lktEFX11+P89hqO/og==}
     engines: {node: ^20.17.0 || >=22.9.0}
+
+  '@opencode-ai/sdk@1.2.25':
+    resolution: {integrity: sha512-ikuGWob48OM7LTgfXFqGOZKVOqh50FEjvtIBhXGhGowJhifmjZ+xuq/ypP8nPjTwUX73pbu1C3X9ZBWVkCN9mA==}
 
   '@oxc-project/runtime@0.115.0':
     resolution: {integrity: sha512-Rg8Wlt5dCbXhQnsXPrkOjL1DTSvXLgb2R/KYfnf1/K+R0k6UMLEmbQXPM+kwrWqSmWA2t0B1EtHy2/3zikQpvQ==}
@@ -2185,6 +2191,8 @@ snapshots:
     dependencies:
       semver: 7.7.4
     optional: true
+
+  '@opencode-ai/sdk@1.2.25': {}
 
   '@oxc-project/runtime@0.115.0': {}
 
