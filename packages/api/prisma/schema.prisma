@@ -21,6 +21,9 @@ model Issue {
   parent       Issue?   @relation("IssueToIssue", fields: [parentId], references: [id])
   subTasks     Issue[]  @relation("IssueToIssue")
 
+  isGoldenTicket Boolean  @default(false)
+  tags           String?
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
