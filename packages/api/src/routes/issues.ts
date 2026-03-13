@@ -1,14 +1,24 @@
 import { Hono } from 'hono'
-import { prisma } from '../lib/prisma'
-import { agentManager } from '../agent-manager'
+import { prisma } from '../lib/prisma.js'
+import { agentManager } from '../agent-manager.js'
 
 const router = new Hono()
 
 router.get('/', async (c) => {
   const issues = await prisma.issue.findMany({
+    where: { parentId: null },
     orderBy: { createdAt: 'asc' }
   })
   return c.json(issues)
+})
+
+router.get('/:id/subtasks', async (c) => {
+  const id = c.req.param('id')
+  const subtasks = await prisma.issue.findMany({
+    where: { parentId: id },
+    orderBy: { createdAt: 'asc' }
+  })
+  return c.json(subtasks)
 })
 
 router.post('/', async (c) => {

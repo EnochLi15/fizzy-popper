@@ -6,3 +6,5 @@ dist/
 .worktrees/
 
 .sisyphus/
+*.db
+*.db-journal

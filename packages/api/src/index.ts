@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import issueRoutes from './routes/issues'
-import { initWebSocket } from './ws'
+import issueRoutes from './routes/issues.js'
+import { initWebSocket } from './ws.js'
 
 const app = new Hono()
 

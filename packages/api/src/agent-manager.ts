@@ -1,6 +1,6 @@
 import { createOpencodeClient } from "@opencode-ai/sdk/v2"
-import { broadcastEvent } from './ws'
-import { prisma } from './lib/prisma'
+import { broadcastEvent } from './ws.js'
+import { prisma } from './lib/prisma.js'
 
 export interface AgentSession {
   issueId: string
@@ -22,8 +22,8 @@ export class AgentManager {
 
   private async listenToEvents() {
     try {
-      const stream = await this.sdk.global.event()
-      for await (const event of stream as any) {
+      const result = await this.sdk.global.event()
+      for await (const event of result.stream as any) {
         const { type, properties } = event
         const sessionID = properties?.sessionID || properties?.info?.sessionID
         if (!sessionID) continue

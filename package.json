@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx packages/core/src/cli.ts",
+    "dev:symphony": "pnpm run --parallel -r dev",
     "start": "node packages/core/dist/cli.js",
     "typecheck": "pnpm run -r typecheck",
     "test": "vitest run",
