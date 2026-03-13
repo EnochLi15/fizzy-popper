@@ -20,7 +20,39 @@ export class AgentManager {
       timestamp: Date.now() 
     })
 
-    // Simulated lifecycle will be added in Task 3
+    this.runSimulation(issueId)
+  }
+
+  private async runSimulation(issueId: string) {
+    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+    
+    await sleep(1000)
+    if (!this.sessions.has(issueId)) return
+    broadcastEvent(issueId, {
+      id: Math.random().toString(36).slice(2),
+      type: 'thought',
+      content: 'I need to check the current directory structure to understand the project layout.',
+      timestamp: Date.now()
+    })
+
+    await sleep(2000)
+    if (!this.sessions.has(issueId)) return
+    broadcastEvent(issueId, {
+      id: Math.random().toString(36).slice(2),
+      type: 'tool_call',
+      command: 'ls -R',
+      output: 'packages/\n  api/\n  web/\npackage.json\npnpm-workspace.yaml',
+      timestamp: Date.now()
+    })
+
+    await sleep(2000)
+    if (!this.sessions.has(issueId)) return
+    broadcastEvent(issueId, {
+      id: Math.random().toString(36).slice(2),
+      type: 'intervention_required',
+      content: 'I found a conflict in the dependency versions between api and web. How should I proceed with the upgrade?',
+      timestamp: Date.now()
+    })
   }
 
   stop(issueId: string) {
