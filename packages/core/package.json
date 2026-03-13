@@ -1,15 +1,16 @@
 {
-  "name": "fizzy-popper",
+  "name": "@fizzy-popper/core",
   "version": "0.1.0",
-  "description": "AI agents for your Fizzy boards",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "description": "Core fizzy-popper functionality",
+  "type": "module",
+  "main": "./dist/cli.js",
+  "bin": {
+    "fizzy-popper": "./dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
-    "dev": "tsx packages/core/src/cli.ts",
-    "start": "node packages/core/dist/cli.js",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"

@@ -1,0 +1,11 @@
+import type { Config } from "../src/config.js";
+import type { FizzyBoard, FizzyCard, FizzyColumn, FizzyComment, FizzyUser, FizzyWebhookEvent, GoldenTicket } from "../src/fizzy.js";
+export declare function makeUser(overrides?: Partial<FizzyUser>): FizzyUser;
+export declare function makeBoard(overrides?: Partial<FizzyBoard>): FizzyBoard;
+export declare function makeColumn(overrides?: Partial<FizzyColumn>): FizzyColumn;
+export declare function makeCard(overrides?: Partial<FizzyCard>): FizzyCard;
+export declare function makeGoldenTicketCard(overrides?: Partial<FizzyCard>): FizzyCard;
+export declare function makeComment(overrides?: Partial<FizzyComment>): FizzyComment;
+export declare function makeGoldenTicket(overrides?: Partial<GoldenTicket>): GoldenTicket;
+export declare function makeWebhookEvent(overrides?: Partial<FizzyWebhookEvent>): FizzyWebhookEvent;
+export declare function makeConfig(overrides?: Partial<Config>): Config;
