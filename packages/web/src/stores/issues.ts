@@ -14,6 +14,8 @@ export interface Issue {
   agentConfig: string | null
   parentId?: string | null
   subTasks?: Issue[]
+  isGoldenTicket?: boolean
+  tags?: string | null
 }
 
 export const useIssueStore = defineStore('issues', () => {
@@ -109,6 +111,33 @@ export const useIssueStore = defineStore('issues', () => {
     })
   }
 
+  const saveGoldenTicket = async (status: string, data: { description: string, tags: string }) => {
+    const existing = issues.value.find((i: Issue) => i.status === status && i.isGoldenTicket)
+    
+    if (existing) {
+      const res = await fetch(`/api/issues/${existing.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const updated = await res.json()
+      Object.assign(existing, updated)
+    } else {
+      const res = await fetch('/api/issues', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          status,
+          title: 'Golden Ticket',
+          isGoldenTicket: true
+        })
+      })
+      const newTicket = await res.json()
+      issues.value.push(newTicket)
+    }
+  }
+
   let ws: WebSocket | null = null
 
   const connectWebSocket = () => {
@@ -147,5 +176,5 @@ export const useIssueStore = defineStore('issues', () => {
     }
   }
 
-  return { issues, isLoading, fetchIssues, createIssue, updateIssueStatus, createSubTask, deleteIssue, startAgent, connectWebSocket }
+  return { issues, isLoading, fetchIssues, createIssue, updateIssueStatus, createSubTask, deleteIssue, startAgent, saveGoldenTicket, connectWebSocket }
 })
