@@ -14,8 +14,8 @@ export interface Issue {
   agentConfig: string | null
   parentId?: string | null
   subTasks?: Issue[]
-  isGoldenTicket?: boolean
-  tags?: string | null
+  isGoldenTicket: boolean
+  tags: string | null
 }
 
 export const useIssueStore = defineStore('issues', () => {
