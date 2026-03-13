@@ -30,4 +30,17 @@ router.delete('/:id', async (c) => {
   return c.json({ success: true })
 })
 
+router.post('/:id/intervention', async (c) => {
+  const id = c.req.param('id')
+  const { content } = await c.req.json()
+  console.log(`Intervention for \${id}: \${content}`)
+  return c.json({ success: true })
+})
+
+router.post('/:id/kill', async (c) => {
+  const id = c.req.param('id')
+  console.log(`Kill agent for \${id}`)
+  return c.json({ success: true })
+})
+
 export default router

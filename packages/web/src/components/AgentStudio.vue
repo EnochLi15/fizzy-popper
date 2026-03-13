@@ -85,7 +85,7 @@
     </div>
 
     <footer class="h-16 border-t border-gray-200 flex items-center justify-between px-4 bg-gray-50">
-      <button class="text-red-600 hover:bg-red-50 px-4 py-2 rounded border border-red-200 transition-colors text-sm font-semibold">
+      <button @click="killProcess" class="text-red-600 hover:bg-red-50 px-4 py-2 rounded border border-red-200 transition-colors text-sm font-semibold">
         Kill Process
       </button>
       <button v-if="issue.workspaceUrl" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm font-semibold">
@@ -127,9 +127,22 @@ const needsIntervention = computed(() => {
 const submitIntervention = async () => {
   if (!interventionInput.value || !props.issue) return
   
-  // Implementation for task 4
-  console.log('Submit intervention:', interventionInput.value)
+  await fetch(\`/api/issues/\${props.issue.id}/intervention\`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: interventionInput.value })
+  })
+  
   interventionInput.value = ''
+}
+
+const killProcess = async () => {
+  if (!props.issue) return
+  if (!confirm('Are you sure you want to kill the agent process?')) return
+
+  await fetch(\`/api/issues/\${props.issue.id}/kill\`, {
+    method: 'POST'
+  })
 }
 
 const scrollToBottom = () => {
