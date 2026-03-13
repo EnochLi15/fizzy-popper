@@ -58,3 +58,122 @@ packages/web dev:  > processFragment ../../node_modules/.pnpm/@vue+runtime-core@
 packages/web dev:  > patch ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:5438:8
 packages/web dev:  > patchKeyedChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6377:8
 packages/web dev:  > patchChildren ../../node_modules/.pnpm/@vue+runtime-core@3.5.30/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:6291:10
+packages/api dev: PrismaClientValidationError: 
+packages/api dev: Invalid `prisma.issue.create()` invocation in
+packages/api dev: /Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:36
+packages/api dev:   23 
+packages/api dev:   24 router.post('/', async (c) => {
+packages/api dev:   25   const body = await c.req.json()
+packages/api dev: → 26   const issue = await prisma.issue.create({
+packages/api dev:          data: {
+packages/api dev:            title: "测试子任务",
+packages/api dev:            parentId: "cmmonhvfl0000rw6cuo8pt13j",
+packages/api dev:        +   description: String
+packages/api dev:          }
+packages/api dev:        })
+packages/api dev: Argument `description` is missing.
+packages/api dev:     at throwValidationException (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:45:9)
+packages/api dev:     at ei.handleRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:202:7)
+packages/api dev:     at ei.handleAndLogRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+packages/api dev:     at ei.request (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+packages/api dev:     at async a (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:24)
+packages/api dev:     at async Array.<anonymous> (/Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:17)
+packages/api dev:     at async responseViaResponseObject (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:421:13)
+packages/api dev:     at async Server.<anonymous> (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:560:14) {
+packages/api dev:   clientVersion: '6.19.2'
+packages/api dev: }
+packages/web dev: 4:47:18 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of component event handler 
+packages/web dev:   at <AddSubTask onAdd=fn > 
+packages/web dev:   at <AgentStudio issue= {"id":"cmmonhvfl0000rw6cuo8pt13j","title":"测试","description":"","status":"todo","assignee":null,"agentStatus":null,"workspaceUrl":null,"startTime":null,"agentConfig":null,"parentId":null,"createdAt":"2026-03-13T08:44:34.785Z","updatedAt":"2026-03-13T08:44:34.785Z"} class="" onClose=fn > 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/api dev: PrismaClientValidationError: 
+packages/api dev: Invalid `prisma.issue.create()` invocation in
+packages/api dev: /Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:36
+packages/api dev:   23 
+packages/api dev:   24 router.post('/', async (c) => {
+packages/api dev:   25   const body = await c.req.json()
+packages/api dev: → 26   const issue = await prisma.issue.create({
+packages/api dev:          data: {
+packages/api dev:            title: "11",
+packages/api dev:            parentId: "cmmonhvfl0000rw6cuo8pt13j",
+packages/api dev:        +   description: String
+packages/api dev:          }
+packages/api dev:        })
+packages/api dev: Argument `description` is missing.
+packages/api dev:     at throwValidationException (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:45:9)
+packages/api dev:     at ei.handleRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:202:7)
+packages/api dev:     at ei.handleAndLogRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+packages/api dev:     at ei.request (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+packages/api dev:     at async a (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:24)
+packages/api dev:     at async Array.<anonymous> (/Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:17)
+packages/api dev:     at async responseViaResponseObject (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:421:13)
+packages/api dev:     at async Server.<anonymous> (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:560:14) {
+packages/api dev:   clientVersion: '6.19.2'
+packages/api dev: }
+packages/web dev: 4:56:58 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of component event handler 
+packages/web dev:   at <AddSubTask onAdd=fn > 
+packages/web dev:   at <AgentStudio issue= {"id":"cmmonhvfl0000rw6cuo8pt13j","title":"测试","description":"","status":"todo","assignee":null,"agentStatus":null,"workspaceUrl":null,"startTime":null,"agentConfig":null,"parentId":null,"createdAt":"2026-03-13T08:44:34.785Z","updatedAt":"2026-03-13T08:47:39.896Z"} class="" onClose=fn > 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/api dev: PrismaClientValidationError: 
+packages/api dev: Invalid `prisma.issue.create()` invocation in
+packages/api dev: /Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:36
+packages/api dev:   23 
+packages/api dev:   24 router.post('/', async (c) => {
+packages/api dev:   25   const body = await c.req.json()
+packages/api dev: → 26   const issue = await prisma.issue.create({
+packages/api dev:          data: {
+packages/api dev:            title: "22323",
+packages/api dev:            parentId: "cmmonhvfl0000rw6cuo8pt13j",
+packages/api dev:        +   description: String
+packages/api dev:          }
+packages/api dev:        })
+packages/api dev: Argument `description` is missing.
+packages/api dev:     at throwValidationException (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:45:9)
+packages/api dev:     at ei.handleRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:202:7)
+packages/api dev:     at ei.handleAndLogRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+packages/api dev:     at ei.request (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+packages/api dev:     at async a (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:24)
+packages/api dev:     at async Array.<anonymous> (/Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:17)
+packages/api dev:     at async responseViaResponseObject (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:421:13)
+packages/api dev:     at async Server.<anonymous> (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:560:14) {
+packages/api dev:   clientVersion: '6.19.2'
+packages/api dev: }
+packages/web dev: 4:57:00 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of component event handler 
+packages/web dev:   at <AddSubTask onAdd=fn > 
+packages/web dev:   at <AgentStudio issue= {"id":"cmmonhvfl0000rw6cuo8pt13j","title":"测试","description":"","status":"todo","assignee":null,"agentStatus":null,"workspaceUrl":null,"startTime":null,"agentConfig":null,"parentId":null,"createdAt":"2026-03-13T08:44:34.785Z","updatedAt":"2026-03-13T08:47:39.896Z"} class="" onClose=fn > 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/api dev: PrismaClientValidationError: 
+packages/api dev: Invalid `prisma.issue.create()` invocation in
+packages/api dev: /Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:36
+packages/api dev:   23 
+packages/api dev:   24 router.post('/', async (c) => {
+packages/api dev:   25   const body = await c.req.json()
+packages/api dev: → 26   const issue = await prisma.issue.create({
+packages/api dev:          data: {
+packages/api dev:            title: "大幅度发",
+packages/api dev:            parentId: "cmmonhvfl0000rw6cuo8pt13j",
+packages/api dev:        +   description: String
+packages/api dev:          }
+packages/api dev:        })
+packages/api dev: Argument `description` is missing.
+packages/api dev:     at throwValidationException (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:45:9)
+packages/api dev:     at ei.handleRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:202:7)
+packages/api dev:     at ei.handleAndLogRequestError (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+packages/api dev:     at ei.request (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+packages/api dev:     at async a (/Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:24)
+packages/api dev:     at async Array.<anonymous> (/Users/enoch/Workspace/fizzy-popper/packages/api/src/routes/issues.ts:26:17)
+packages/api dev:     at async responseViaResponseObject (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:421:13)
+packages/api dev:     at async Server.<anonymous> (file:///Users/enoch/Workspace/fizzy-popper/node_modules/.pnpm/@hono+node-server@1.19.11_hono@4.12.7/node_modules/@hono/node-server/dist/index.mjs:560:14) {
+packages/api dev:   clientVersion: '6.19.2'
+packages/api dev: }
+packages/web dev: 4:57:08 PM [vite] (client) [console.warn] [Vue warn]: Unhandled error during execution of component event handler 
+packages/web dev:   at <AddSubTask onAdd=fn > 
+packages/web dev:   at <AgentStudio issue= {"id":"cmmonhvfl0000rw6cuo8pt13j","title":"测试","description":"","status":"todo","assignee":null,"agentStatus":null,"workspaceUrl":null,"startTime":null,"agentConfig":null,"parentId":null,"createdAt":"2026-03-13T08:44:34.785Z","updatedAt":"2026-03-13T08:47:39.896Z"} class="" onClose=fn > 
+packages/web dev:   at <KanbanBoard> 
+packages/web dev:   at <App>
+packages/web dev: 4:57:21 PM [vite] (client) hmr update /src/components/KanbanBoard.vue, /src/components/AgentStudio.vue, /src/components/KanbanColumn.vue, /src/style.css, /src/components/IssueCard.vue
+packages/web dev: 4:57:39 PM [vite] (client) hmr update /src/components/KanbanBoard.vue, /src/components/AgentStudio.vue, /src/components/KanbanColumn.vue, /src/style.css, /src/components/IssueCard.vue
+packages/web dev: 4:57:55 PM [vite] (client) hmr update /src/components/AgentStudio.vue, /src/style.css

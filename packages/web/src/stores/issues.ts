@@ -103,6 +103,12 @@ export const useIssueStore = defineStore('issues', () => {
     })
   }
 
+  const startAgent = async (id: string) => {
+    await fetch(`/api/issues/${id}/start-agent`, {
+      method: 'POST'
+    })
+  }
+
   let ws: WebSocket | null = null
 
   const connectWebSocket = () => {
@@ -141,5 +147,5 @@ export const useIssueStore = defineStore('issues', () => {
     }
   }
 
-  return { issues, isLoading, fetchIssues, createIssue, updateIssueStatus, createSubTask, deleteIssue, connectWebSocket }
+  return { issues, isLoading, fetchIssues, createIssue, updateIssueStatus, createSubTask, deleteIssue, startAgent, connectWebSocket }
 })

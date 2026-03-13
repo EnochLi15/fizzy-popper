@@ -107,17 +107,36 @@
       </div>
     </div>
 
-    <footer class="h-16 border-t border-gray-200 flex items-center justify-between px-4 bg-gray-50">
-      <button @click="killProcess" class="text-red-600 hover:bg-red-50 px-4 py-2 rounded border border-red-200 transition-colors text-sm font-semibold">
-        Kill Process
-      </button>
+    <footer class="h-16 border-t border-gray-200 flex items-center justify-between px-4 bg-gray-50 shrink-0">
+      <div class="flex gap-2">
+        <button 
+          v-if="issue.status === 'todo'"
+          @click="issueStore.startAgent(issue.id)" 
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm font-semibold flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Run Agent
+        </button>
+        
+        <button 
+          v-if="issue.status === 'in_progress'"
+          @click="killProcess" 
+          class="text-red-600 hover:bg-red-50 px-4 py-2 rounded border border-red-200 transition-colors text-sm font-semibold"
+        >
+          Kill Process
+        </button>
+      </div>
+
       <a 
         v-if="issue.workspaceUrl" 
         :href="issue.workspaceUrl" 
         target="_blank"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm font-semibold flex items-center gap-2"
+        class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200 transition-colors text-sm font-semibold flex items-center gap-2 border border-gray-200"
       >
-        View Conversation
+        View Workspace
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
