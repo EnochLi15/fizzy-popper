@@ -1,9 +1,8 @@
 import { Hono } from 'hono'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../lib/prisma'
 import { agentManager } from '../agent-manager'
 
 const router = new Hono()
-const prisma = new PrismaClient()
 
 router.get('/', async (c) => {
   const issues = await prisma.issue.findMany({
