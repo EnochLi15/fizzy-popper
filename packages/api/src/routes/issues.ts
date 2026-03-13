@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client'
+import { agentManager } from '../agent-manager'
 
 const router = new Hono()
 const prisma = new PrismaClient()
@@ -30,16 +31,22 @@ router.delete('/:id', async (c) => {
   return c.json({ success: true })
 })
 
+router.post('/:id/start-agent', async (c) => {
+  const id = c.req.param('id')
+  agentManager.start(id)
+  return c.json({ success: true })
+})
+
 router.post('/:id/intervention', async (c) => {
   const id = c.req.param('id')
   const { content } = await c.req.json()
-  console.log(`Intervention for \${id}: \${content}`)
+  agentManager.sendIntervention(id, content)
   return c.json({ success: true })
 })
 
 router.post('/:id/kill', async (c) => {
   const id = c.req.param('id')
-  console.log(`Kill agent for \${id}`)
+  agentManager.stop(id)
   return c.json({ success: true })
 })
 
