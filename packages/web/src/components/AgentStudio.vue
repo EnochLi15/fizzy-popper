@@ -7,8 +7,8 @@
           🤖 Agent
         </span>
       </div>
-      <button @click="$emit('close')" class="text-gray-400 hover:text-gray-600 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button @click="$emit('close')" class="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
@@ -29,6 +29,29 @@
     </nav>
 
     <div class="flex-1 overflow-hidden relative">
+      <!-- Tasks Tab -->
+      <div v-if="activeTab === 'tasks'" class="h-full p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-semibold text-gray-800">Sub-tasks</h3>
+          <span v-if="issue.subTasks" class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+            {{ issue.subTasks.filter(t => t.status === 'done').length }}/{{ issue.subTasks.length }}
+          </span>
+        </div>
+
+        <SubTaskList 
+          v-if="issue.subTasks?.length" 
+          :sub-tasks="issue.subTasks" 
+          @toggle="(task) => issueStore.updateIssueStatus(task.id, task.status === 'done' ? 'todo' : 'done')"
+          @delete="(id) => issueStore.deleteIssue(id)"
+        />
+        
+        <div v-else class="text-center py-10 border-2 border-dashed border-gray-100 rounded-lg mb-4">
+          <p class="text-gray-400 text-sm">No sub-tasks yet.</p>
+        </div>
+
+        <AddSubTask @add="(title) => issueStore.createSubTask(issue.id, title)" />
+      </div>
+
       <!-- Session Tab -->
       <div v-if="activeTab === 'session'" class="h-full flex flex-col bg-[#1e1e1e] text-gray-300 font-mono text-sm p-4 overflow-y-auto" ref="logContainer">
         <div v-for="log in logs" :key="log.id" class="mb-4">
@@ -106,17 +129,21 @@
 <script setup lang="ts">
 import { ref, computed, watch, onUpdated, nextTick } from 'vue'
 import { useAgentStore } from '../stores/agent'
-import type { Issue } from '../stores/issues'
+import { useIssueStore, type Issue } from '../stores/issues'
+import SubTaskList from './SubTaskList.vue'
+import AddSubTask from './AddSubTask.vue'
 
 const props = defineProps<{ issue: Issue | null }>()
 defineEmits(['close'])
 
 const agentStore = useAgentStore()
-const activeTab = ref('session')
+const issueStore = useIssueStore()
+const activeTab = ref('tasks')
 const interventionInput = ref('')
 const logContainer = ref<HTMLElement | null>(null)
 
 const tabs = [
+  { id: 'tasks', label: 'Tasks' },
   { id: 'session', label: 'Session' },
   { id: 'diff', label: 'Diff' },
   { id: 'settings', label: 'Settings' }

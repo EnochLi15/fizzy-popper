@@ -12,6 +12,8 @@ export interface Issue {
   workspaceUrl: string | null
   startTime: string | null
   agentConfig: string | null
+  parentId?: string | null
+  subTasks?: Issue[]
 }
 
 export const useIssueStore = defineStore('issues', () => {
@@ -31,13 +33,62 @@ export const useIssueStore = defineStore('issues', () => {
 
   const updateIssueStatus = async (id: string, status: string) => {
     // Optimistic update
-    const issue = issues.value.find(i => i.id === id)
-    if (issue) issue.status = status
+    const findAndUpdate = (list: Issue[]): boolean => {
+      for (const issue of list) {
+        if (issue.id === id) {
+          issue.status = status
+          return true
+        }
+        if (issue.subTasks && findAndUpdate(issue.subTasks)) return true
+      }
+      return false
+    }
+    findAndUpdate(issues.value)
     
     await fetch(`/api/issues/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })
+    })
+  }
+
+  const createSubTask = async (parentId: string, title: string) => {
+    const res = await fetch('/api/issues', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, parentId })
+    })
+    const newSubTask = await res.json()
+    
+    const findIssue = (list: Issue[]): Issue | undefined => {
+      for (const issue of list) {
+        if (issue.id === parentId) return issue
+        if (issue.subTasks) {
+          const found = findIssue(issue.subTasks)
+          if (found) return found
+        }
+      }
+    }
+    const parent = findIssue(issues.value)
+    if (parent) {
+      if (!parent.subTasks) parent.subTasks = []
+      parent.subTasks.push(newSubTask)
+    }
+  }
+
+  const deleteIssue = async (id: string) => {
+    const filterIssues = (list: Issue[]): Issue[] => {
+      return list
+        .filter((i: Issue) => i.id !== id)
+        .map((i: Issue) => ({
+          ...i,
+          subTasks: i.subTasks ? filterIssues(i.subTasks) : undefined
+        }))
+    }
+    issues.value = filterIssues(issues.value)
+
+    await fetch(`/api/issues/${id}`, {
+      method: 'DELETE'
     })
   }
 
@@ -55,9 +106,18 @@ export const useIssueStore = defineStore('issues', () => {
       
       if (data.issueId) {
         if (data.type === 'status_update') {
-          const issue = issues.value.find(i => i.id === data.issueId)
-          if (issue && data.status) issue.status = data.status
-          if (issue && data.agentStatus) issue.agentStatus = data.agentStatus
+          const findAndUpdate = (list: Issue[]): boolean => {
+            for (const issue of list) {
+              if (issue.id === data.issueId) {
+                if (data.status) issue.status = data.status
+                if (data.agentStatus) issue.agentStatus = data.agentStatus
+                return true
+              }
+              if (issue.subTasks && findAndUpdate(issue.subTasks)) return true
+            }
+            return false
+          }
+          findAndUpdate(issues.value)
         } else {
           agentStore.addLog(data.issueId, data)
         }
@@ -70,5 +130,5 @@ export const useIssueStore = defineStore('issues', () => {
     }
   }
 
-  return { issues, isLoading, fetchIssues, updateIssueStatus, connectWebSocket }
+  return { issues, isLoading, fetchIssues, updateIssueStatus, createSubTask, deleteIssue, connectWebSocket }
 })
