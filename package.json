@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "AI agents for your Fizzy boards",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx packages/core/src/cli.ts",
