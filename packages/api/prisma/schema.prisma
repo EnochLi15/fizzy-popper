@@ -17,6 +17,9 @@ model Issue {
   workspaceUrl String?
   startTime    DateTime?
   agentConfig  String?  // JSON serialized
+  parentId     String?
+  parent       Issue?   @relation("IssueToIssue", fields: [parentId], references: [id])
+  children     Issue[]  @relation("IssueToIssue")
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
