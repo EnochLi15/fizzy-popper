@@ -111,30 +111,37 @@ export const useIssueStore = defineStore('issues', () => {
     })
   }
 
-  const saveGoldenTicket = async (status: string, data: { description: string, tags: string }) => {
+  const saveGoldenTicket = async (status: string, data: { description: string, tags: string }): Promise<void> => {
     const existing = issues.value.find((i: Issue) => i.status === status && i.isGoldenTicket)
     
-    if (existing) {
-      const res = await fetch(`/api/issues/${existing.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      const updated = await res.json()
-      Object.assign(existing, updated)
-    } else {
-      const res = await fetch('/api/issues', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          status,
-          title: 'Golden Ticket',
-          isGoldenTicket: true
+    try {
+      if (existing) {
+        const res = await fetch(`/api/issues/${existing.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
         })
-      })
-      const newTicket = await res.json()
-      issues.value.push(newTicket)
+        if (!res.ok) throw new Error('Failed to update golden ticket')
+        const updated = await res.json()
+        Object.assign(existing, updated)
+      } else {
+        const res = await fetch('/api/issues', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...data,
+            status,
+            title: 'Golden Ticket',
+            isGoldenTicket: true
+          })
+        })
+        if (!res.ok) throw new Error('Failed to create golden ticket')
+        const newTicket = await res.json()
+        issues.value.push(newTicket)
+      }
+    } catch (error) {
+      console.error('saveGoldenTicket error:', error)
+      throw error
     }
   }
 
