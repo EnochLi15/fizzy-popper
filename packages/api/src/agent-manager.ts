@@ -5,6 +5,7 @@ import { prisma } from './lib/prisma.js'
 export interface AgentSession {
   issueId: string
   sessionID?: string
+  workspaceUrl?: string
   status: 'idle' | 'running' | 'waiting' | 'stopped'
 }
 
@@ -20,12 +21,36 @@ export class AgentManager {
     this.listenToEvents()
   }
 
+  private extractSessionID(payload: any): string | undefined {
+    return payload?.sessionID
+      || payload?.info?.sessionID
+      || payload?.properties?.sessionID
+      || payload?.properties?.info?.sessionID
+      || payload?.payload?.properties?.sessionID
+      || payload?.payload?.properties?.info?.sessionID
+      || payload?.id
+  }
+
+  private async updateIssueState(issueId: string, data: { status?: string; agentStatus?: string; workspaceUrl?: string }) {
+    await prisma.issue.update({
+      where: { id: issueId },
+      data,
+    })
+
+    broadcastEvent(issueId, {
+      type: 'status_update',
+      issueId,
+      ...data,
+    })
+  }
+
   private async listenToEvents() {
     try {
       const result = await this.sdk.global.event()
-      for await (const event of result.stream as any) {
+      for await (const envelope of result.stream as any) {
+        const event = envelope?.payload || envelope
         const { type, properties } = event
-        const sessionID = properties?.sessionID || properties?.info?.sessionID
+        const sessionID = this.extractSessionID(event)
         if (!sessionID) continue
 
         const issueId = this.sessionToIssue.get(sessionID)
@@ -35,7 +60,7 @@ export class AgentManager {
 
         switch (type) {
           case 'message.updated':
-            const text = properties.info?.text || properties.info?.content
+            const text = properties.info?.parts?.find((part: any) => part.type === 'text')?.text
             if (text) {
               broadcastEvent(issueId, {
                 id: Math.random().toString(36).slice(2),
@@ -45,6 +70,25 @@ export class AgentManager {
               })
             }
             break
+          case 'session.status': {
+            const sdkStatus = properties?.status?.type
+            const issueStatus = sdkStatus === 'idle' ? 'done' : 'in_progress'
+            const agentStatus = sdkStatus === 'idle' ? 'completed' : sdkStatus === 'retry' ? 'waiting_input' : 'writing_code'
+            await this.updateIssueState(issueId, { status: issueStatus, agentStatus })
+            break
+          }
+          case 'session.idle':
+            await this.updateIssueState(issueId, { status: 'done', agentStatus: 'completed' })
+            break
+          case 'session.updated': {
+            const workspaceUrl = properties?.info?.share?.url
+            if (workspaceUrl) {
+              const session = this.sessions.get(issueId)
+              if (session) session.workspaceUrl = workspaceUrl
+              await this.updateIssueState(issueId, { workspaceUrl })
+            }
+            break
+          }
           case 'tool.called':
             broadcastEvent(issueId, {
               id: Math.random().toString(36).slice(2),
@@ -62,6 +106,17 @@ export class AgentManager {
               output: properties.info?.output || properties.info?.result,
               timestamp: Date.now()
             })
+            break
+          case 'command.executed':
+            if (properties?.name?.toLowerCase()?.includes('web')) {
+              broadcastEvent(issueId, {
+                id: Math.random().toString(36).slice(2),
+                type: 'tool_call',
+                command: properties.name,
+                output: properties.arguments,
+                timestamp: Date.now()
+              })
+            }
             break
           case 'permission.asked':
             broadcastEvent(issueId, {
@@ -129,9 +184,14 @@ export class AgentManager {
         where: { id: issueId },
         data: { 
           workspaceUrl: sharedUrl,
-          agentStatus: 'writing_code'
+          agentStatus: 'writing_code',
+          status: 'in_progress'
         }
       })
+
+      if (sharedUrl) {
+        session.workspaceUrl = sharedUrl
+      }
 
       await this.sdk.session.prompt({
         sessionID: sdkSession.id,
@@ -142,7 +202,8 @@ export class AgentManager {
         type: 'status_update',
         issueId,
         status: 'in_progress',
-        agentStatus: 'writing_code'
+        agentStatus: 'writing_code',
+        workspaceUrl: sharedUrl
       })
 
     } catch (err: any) {
