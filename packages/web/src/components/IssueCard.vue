@@ -14,6 +14,21 @@
       <span class="text-xs text-gray-500 italic">{{ issue.agentStatus }}...</span>
     </div>
 
+
+    <a
+      v-if="issue.workspaceUrl"
+      :href="issue.workspaceUrl"
+      target="_blank"
+      @click.stop
+      class="mt-2 inline-flex items-center gap-1 text-[11px] text-blue-600 hover:text-blue-700"
+    >
+      Open Session
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14h14" />
+      </svg>
+    </a>
+
     <!-- Sub-task Progress -->
     <div v-if="issue.subTasks?.length" class="flex items-center gap-1.5 mt-2 text-gray-500">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">

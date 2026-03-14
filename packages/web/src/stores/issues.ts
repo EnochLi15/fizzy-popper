@@ -164,6 +164,7 @@ export const useIssueStore = defineStore('issues', () => {
               if (issue.id === data.issueId) {
                 if (data.status) issue.status = data.status
                 if (data.agentStatus) issue.agentStatus = data.agentStatus
+                if (data.workspaceUrl !== undefined) issue.workspaceUrl = data.workspaceUrl
                 return true
               }
               if (issue.subTasks && findAndUpdate(issue.subTasks)) return true
